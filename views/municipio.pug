@@ -1,0 +1,69 @@
+extends base.pug
+
+block head
+    link(href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet')
+
+
+block container
+    .container.mt-5
+        h1.text-center Municipios
+        .row
+            .col-3 
+                h3#TitleForm.text-center Nuevo Municipio
+                if error
+                    #alert.alert.alert-danger(role="alert")
+                        ul
+                            for err in error
+                                li.text-danger #{err}
+                if success
+                    #alert.alert.alert-success(role="alert")
+                        | Municipio se #{success} con exito
+                form#formMunicipio.form-group.mt-3(action="/municipios" method="post")
+                    input.form-control.mt-2(type="text" name="Municipio" id="Municipio"   placeholder="Municipio")
+                    
+                    input.form-control.mt-2(type="text" name="Cabecera" id="Cabecera" placeholder="Cabecera")
+                    input.form-control.mt-2(type="text" name="Latitud" id="Latitud" placeholder="Latitud")
+
+                    input.form-control.mt-2(type="text" name="Longitud" id="Longitud" placeholder="Longitud")
+                    
+                    .row.mt-2
+                        .col-6.align-items-end
+                            button#btnGuardar.btn.btn-primary.w-100.mt-2(type="submit") Guardar
+                        .col-6.align-items-start
+                            button.btn.btn-danger.w-100.mt-2(type="button" onclick="javascrips:cancelar()" id="btnCancelar" style={"display":"none"}) Cancelar
+
+                    #map(style="width: 100%; height: 400px;").mt-5
+            .col-9                    
+                
+                table#tablaClientes.display.table
+                    thead
+                        tr
+                            th id
+                            th Municipio
+                            th Cabecera
+                            th Latitud
+                            th Longitud
+                            th.text-center Acciones
+                    tbody 
+                        each municipio in municipios
+                            tr
+                                td #{municipio.CodMun}
+                                td #{municipio.Municipio}
+                                
+                                td #{municipio.Cabecera}
+                                td #{municipio.Longitud}
+                                td #{municipio.Latitud}
+                                
+                                td.text-center
+                                    .row
+                                        .col-md-6
+                                            form(action='/municipios/delete/'+municipio.CodMun method="post") 
+                                                button.waves-effect.waves-light.btn.green.btn-small(type="submit") 
+                                                    i.material-icons.text-danger delete
+                                        .col-md-6
+                                            button.waves-effect.waves-light.btn.red.btn-small(onclick="javascript:getbyId("+municipio.CodMun+")")     
+                                                i.material-icons.text-primary edit
+block scripts
+    script(src="/DataTables/datatables.min.js")
+    script(src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js')
+    script(src="/js/municipio.js")

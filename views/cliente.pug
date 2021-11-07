@@ -1,0 +1,92 @@
+extends base.pug
+
+block head 
+block title 
+    title Cliente
+    link(rel="stylesheet" href="/DataTables/datatables.min.css")
+    
+
+block scripts
+    script(src="/DataTables/datatables.min.js")
+    script(src="/js/cliente.js")
+
+block container 
+    .container.mt-5
+        h1.text-center Clientes
+        .row
+            .col-3 
+                h3#TitleForm.text-center Nuevo Cliente
+                if error
+                    #alert.alert.alert-danger(role="alert")
+                        ul
+                            for err in error
+                                li.text-danger #{err}
+                if success
+                    #alert.alert.alert-success(role="alert")
+                        | Cliente se #{success} con exito
+                form.form-group.mt-3(action="/clientes" method="post" id="formCliente")
+                    input.form-control.mt-2(type="text" name="Nombre" id="Nombre"   placeholder="Nombre")
+                    
+                    input.form-control.mt-2(type="text" name="Apellido" id="Apellido" placeholder="Apellido")
+                    input.form-control.mt-2(type="text" name="Direccion" id="Direccion" placeholder="Direccion")
+                    //- combobox municipio
+                    select#CodMunicipio(name="CodMunicipio").form-control.mt-2
+                        option(value="-1" selected) Seleccione un municipio
+                        for municipio in municipios
+                            option(value=municipio.CodMun) #{municipio.Municipio}
+                    input.form-control.mt-2(type="text" name="Telefono" id="Telefono" placeholder="Telefono")
+                    div.mt-2
+                        .form-check.form-check-inline
+                            input.form-check-input(type="radio" name="Estado" id="inlineRadio" value="1")
+                            label.form-check-label(for="inlineRadio") Activo
+                        .form-check.form-check-inline
+                            input.form-check-input(type="radio" name="Estado" id="inlineRadio2" value="0")
+                            label.form-check-label( for="inlineRadio2") Inactivo
+                    .row.mt-2
+                        .col-6.align-items-end
+                            button#btnGuardar.btn.btn-primary.w-100.mt-2(type="submit") Guardar
+                        .col-6.align-items-start
+                            button.btn.btn-danger.w-100.mt-2(type="button" onclick="javascript:cancelar()" id="btnCancelar" style={"display":"none"}) Cancelar
+            .col-9                    
+                
+                table#tablaClientes.display.table
+                    thead
+                        tr
+                            th id
+                            th Nombre
+                            th Direccion
+                            th Municipio
+                            th Telefono
+                            th Estado
+                            th.text-center Acciones
+                    tbody 
+                        if clientes.length == 0
+                            tr.text-center
+                                td(colspan="7")
+                                    | No hay clientes
+                        else
+                            each cliente in clientes
+                                tr
+                                    td #{cliente.Id}
+                                    td #{cliente.Nombre} #{cliente.Apellido}                                    
+                                    td #{cliente.Direccion}
+                                    td #{cliente.Municipio}
+                                    td #{cliente.Telefono}
+                                    if cliente.Estado == 1
+                                        td.text-success.fw-bold
+                                            | Activo
+                                    else
+                                        td.text-danger.fw-bold
+                                            | Inactivo
+                                    td.text-center
+                                        .row
+                                            .col-md-6
+                                                form(action='/clientes/delete/'+cliente.Id+'?Estado='+cliente.Estado method="post") 
+                                                    button.waves-effect.waves-light.btn.green.btn-small(type="submit") 
+                                                        if cliente.Estado==1
+                                                            i.material-icons.text-danger delete
+                                                        else
+                                                            i.material-icons.text-success check
+                                            .col-md-6
+                                                button.waves-effect.waves-light.btn.red.btn-small(onclick="javascript:getbyId("+cliente.Id+")")     
+                                                    i.material-icons.text-primary edit

@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        block title
+        link(rel="stylesheet", href="/bootstrap/bootstrap.min.css")
+        link(rel="stylesheet", href="/css/signin.css")
+        link(rel="stylesheet", href="/css/icon.css")
+        block head
+        
+    body 
+        script(src="/bootstrap/bootstrap.bundle.min.js") 
+        
+        .container
+            ul.nav.justify-content-center
+                li.nav-item
+                    a.nav-link.active(aria-current='page' href='/Clientes') Clientes
+                li.nav-item
+                    a.nav-link(href='/municipios') Municipios
+        block container
+
+        block scripts 

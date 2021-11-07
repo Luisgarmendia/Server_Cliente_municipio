@@ -1,0 +1,30 @@
+extends layout.pug
+
+block head
+    link(rel="stylesheet", href="/css/signin.css")
+
+block title 
+    title Sign in
+
+block container
+    main.form-signin.text-center
+        form(action="/login", method="post")
+            //- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            h1.h3.mb-3.fw-normal Please sign in
+            .form-floating 
+                input.form-control#floatingInput(type="name",placeholder="Username" name="username")
+                label(for="floatingInput") Username
+            .form-floating 
+                input.form-control#floatingPassword(type="password",placeholder="Password" name="password")
+                label(for="floatingPassword") Password 
+            .checkbox.mb-3
+                label.mr-5 Remember me  
+                    input#remember(type="checkbox")
+            button.w-100.btn.btn-lg.btn-primary(type="submit") Sign in
+            a.w-100.btn.btn-lg.btn-success.mt-2(href="/register") Sign up
+            p.mt-5.text-muted.text-center
+                a.d-block.text-center(href="#") Forgot password?
+            p.mt-5.mb-3.text-muted.text-center
+                a.d-block.text-center(href="#") Create an account
+            p.mt-5.mb-3.text-muted &copy; 2021-forever
+                a(href="/contact") Contactame 
