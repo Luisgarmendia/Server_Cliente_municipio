@@ -45,8 +45,8 @@ app.use(logger);
 /* ----------------------------- Rutas nombradas ---------------------------- */
 ///usamos las rutas
 app.use('/',routes);
-app.use('/clientes',routesClientes);
-app.use('/municipios',routesMunicipio);
+app.use('/clientes',isAuthenticated,routesClientes);
+app.use('/municipios',isAuthenticated,routesMunicipio);
 
 /* ------------------- escuchar servidor en el puerto 3000 ------------------ */
 app.listen(PORT,()=>{
