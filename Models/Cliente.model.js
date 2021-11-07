@@ -55,7 +55,7 @@ export default class Cliente{
         if(!this.CodMunicipio){
             errores.push("El municipio es obligatorio");
         }
-        if(this.CodMunicipio < 0){
+        if(this.CodMunicipio == '-1'){
             errores.push("El municipio no es valido");
         }
         if(!this.Telefono){
